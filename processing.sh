@@ -91,6 +91,7 @@ for folder in *; do
 	cd ../
 	echo "Renaming containing folder to $newshape."
 	mv $folder $newshape
+	zip -r ../output_zipped_to_renamed/$newshape.zip $newshape
 done
 fi
 
@@ -145,6 +146,7 @@ for asset in *; do
 	cp "./$asset" ../input_SQL_to_postgres
 done
 fi
+
 
 #Uploads SQL files to PostGIS database, dependent on user input
 
