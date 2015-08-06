@@ -1,6 +1,10 @@
 #Interactivity
 stagestatus="ZIP"
 renamestatus=false
+datenow=`date +%Y-%m-%d_%H.%M.%S`
+echo "Conversion beginning at ${datenow}." > ./logs/$datenow.txt
+echo "" >> ./logs/$datenow.txt
+
 printf '\n\n'
 echo "########################################"
 echo "       NYU SDR Processing Script"
@@ -21,6 +25,7 @@ while true; do
     esac
 done
 echo ""
+echo "Beginning with ${stagestatus} files." >> ./logs/$datenow.txt
 
 if [ $stagestatus = "SHP" ] || [ $stagestatus = "ZIP" ]; then
 echo "Do you want to rename individual files?"
@@ -60,6 +65,7 @@ fi
 
 if [ $renamestatus = true ]; then
 cd /home/ubuntu/staging_area/input_shp_to_WGS84/
+renamecount=1
 for folder in *; do
 	cd ./$folder
 	for shp in *.shp; do
@@ -92,6 +98,8 @@ for folder in *; do
 	echo "Renaming containing folder to $newshape."
 	mv $folder $newshape
 	zip -r ../output_zipped_to_renamed/$newshape.zip $newshape
+	echo "${renamecount}) Renaming ${shape} > to > ${newshape}" >> ../logs/$datenow.txt
+	renamecount=$((renamecount + 1))
 done
 fi
 
@@ -115,6 +123,7 @@ done
 cd /home/ubuntu/staging_area/output_shp_to_WGS84
 for asset in *; do
 	cp -R "./$asset" ../input_shp_to_SQL
+	zip -r "../output_reprojected_zip/${asset}_WGS84.zip" $asset 
 done
 cd $activedir
 fi

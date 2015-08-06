@@ -22,4 +22,6 @@ if [ $perform = true ]; then
 	rm -R ./input_SQL_to_postgres/*
 	rm -R ./output_shp_to_SQL/*
 	rm -R ./output_shp_to_WGS84/*
+	rm -R ./output_zipped_to_renamed/*
+	rm -R ./output_reprojected_zip/*
 fi
